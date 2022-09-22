@@ -46,9 +46,9 @@ namespace taos {
 
     struct batch_policy {
         bool enable{true};
-        bool thread_isolate{false};
+        bool thread_isolate{true};
         int batch_size{256};
-        int timeout{10};
+        int timeout{100};
     };
 
     struct client_policy {

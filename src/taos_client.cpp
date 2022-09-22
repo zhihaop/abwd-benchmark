@@ -36,7 +36,13 @@ inline static void configGlobalDispatcher(const taos::batch_policy& policy) {
 }
 
 void taos::client::connect(const char *ip, const char *user, const char *pass, const char *db, uint16_t port) {
+    using namespace std::string_literals;
+    
     conn = taos_connect(ip, user, pass, db, port);
+    if (taos_errstr(conn) != "success"s) {
+        std::throw_with_nested(taos_errstr(conn));
+    }
+    
     if (conn) {
         configGlobalDispatcher(policy.batch);
     }

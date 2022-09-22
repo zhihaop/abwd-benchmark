@@ -1,10 +1,5 @@
 #include "statement.h"
 
-namespace taos {
-    
-}
-
-
 
 size_t taos::statement::rows() const {
     return data->rows();

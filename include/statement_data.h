@@ -7,7 +7,7 @@
 #include <algorithm>
 
 namespace taos {
-    
+
     /**
      * Store the data of the table.
      */
@@ -17,7 +17,7 @@ namespace taos {
 
     public:
         explicit table_data(const std::string &name);
-        
+
         static size_t estimate_size(const row &r);
 
         size_t estimate_size() const;
@@ -33,7 +33,7 @@ namespace taos {
         void insert_into(const std::vector<std::string> &cols);
 
     private:
-        constexpr const static std::string_view VALUES = "values";
+        constexpr const static std::string_view VALUES{"values"};
 
     protected:
         const std::string &name;
@@ -54,9 +54,9 @@ namespace taos {
         size_t rows() const;
 
         std::shared_ptr<table_data> insert_into(const std::string &table);
-        
+
     private:
-        constexpr const static std::string_view INSERT_INTO = "insert into";
+        constexpr const static std::string_view INSERT_INTO{"insert into"};
         std::unordered_map<std::string, std::shared_ptr<table_data>> tables;
     };
 
