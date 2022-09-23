@@ -27,7 +27,7 @@ namespace taos {
          * 
          * @return the error string.
          */
-        const char *error();
+        std::string error();
         
         /**
          * Get the status code.

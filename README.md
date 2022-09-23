@@ -37,3 +37,9 @@ sudo apt install -y build-essential cmake libspdlog-dev
     cmake --build . --parallel $(nproc)
     ./abwd-benchmark
     ```
+
+## Benchmark
+
+Single-table asynchronous insert throughput and speedup (batch_size=128, timeout=50)
+
+![throughput](image/throughput.png) ![speedup](image/speedup.png)

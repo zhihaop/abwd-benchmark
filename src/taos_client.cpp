@@ -118,8 +118,8 @@ taos::result::result(taos::result &&r) noexcept: res(r.res) {
     r.res = nullptr;
 }
 
-const char *taos::result::error() {
-    return res ? taos_errstr(res) : nullptr;
+std::string taos::result::error() {
+    return res ? taos_errstr(res) : std::string{};
 }
 
 int taos::result::code() {
