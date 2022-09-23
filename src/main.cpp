@@ -12,7 +12,6 @@
 
 struct benchmark_policy {
     int data_size = 1000000;
-    int table_count = 8;
     int threads = static_cast<int>(std::thread::hardware_concurrency());
 };
 
@@ -47,22 +46,17 @@ void execute_benchmark(benchmark_policy b, taos::client_policy c) {
     client.query("use abwd_test");
 
     // prepare table.
-    std::vector<std::string> tables(b.table_count);
+    std::string table = "bw0001";
     client.query("create stable bw (ts timestamp, v int) tags(g int)");
-    for (int i = 0; i < b.table_count; ++i) {
-        tables[i] = fmt::format("bw000{}", i);
-        auto sql = fmt::format("create table {} using bw tags({})", tables[i], 0);
-        client.query(sql);
-    }
-
-    spdlog::info("create {} tables", b.table_count);
+    client.query(fmt::format("create table {} using bw tags({})", table, 0));
+    spdlog::info("create table: {}", table);
 
     // executor will block until finish all the insertion calls. 
     countdown_latch latch(b.data_size);
     std::vector<std::future<void>> executor;
     const auto block_size = b.data_size / b.threads;
     const long ts = std::chrono::system_clock::now().time_since_epoch() / 1ns - b.data_size;
-    spdlog::info("start insert {} rows into {} tables {} threads", b.data_size, tables.size(), b.threads);
+    spdlog::info("start insert {} rows into {} table {} threads", b.data_size, table, b.threads);
 
     // start insert.
     auto t1 = std::chrono::steady_clock::now();
@@ -70,9 +64,8 @@ void execute_benchmark(benchmark_policy b, taos::client_policy c) {
         const auto offset = i * block_size;
         const auto nxt = i + 1 == b.threads ? b.data_size : (i + 1) * block_size;
         
-        auto runnable = [offset, nxt, ts, &tables, &client, &latch]() {
+        auto runnable = [offset, nxt, ts, table, &client, &latch]() {
             for (auto j = offset; j < nxt; ++j) {
-                const auto table = tables[random() % tables.size()];
                 auto sql = fmt::format("insert into {} values ({}, {})", table, ts + j, j);
                 client.query(sql, [&latch, sql](taos::result result) {
                     // no need to free TAOS_RES*, because TAOS_RES* is managed by taos::result class.
@@ -83,7 +76,6 @@ void execute_benchmark(benchmark_policy b, taos::client_policy c) {
                 });
             }
         };
-
         auto future = std::async(std::launch::async, runnable);
         executor.emplace_back(std::move(future));
     }
@@ -143,9 +135,6 @@ benchmark_policy read_benchmark_policy(std::istream &in) {
 
     fmt::print("data_size ({}): ", t.data_size);
     readline(in, t.data_size);
-
-    fmt::print("table_count ({}): ", t.table_count);
-    readline(in, t.table_count);
 
     fmt::print("threads ({}): ", t.threads);
     readline(in, t.threads);
