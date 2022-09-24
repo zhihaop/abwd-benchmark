@@ -5,9 +5,9 @@
 extern "C" {
 struct SDispatcherHolder;
 
-extern SDispatcherHolder *tscDispatcher;
-SDispatcherHolder *createDispatcherHolder(int32_t batchSize, int32_t timeoutMs, bool isThreadLocal);
-void destroyDispatcherHolder(SDispatcherHolder *holder);
+extern SDispatcherHolder *tscDispatcherManager;
+SDispatcherHolder *createDispatcherManager(int32_t batchSize, int32_t timeoutMs, bool isThreadLocal);
+void destroyDispatcherManager(SDispatcherHolder *holder);
 }
 
 struct callback_context {
@@ -26,12 +26,12 @@ taos::client::client(taos::client_policy client_policy) : policy(client_policy) 
 }
 
 inline static void configGlobalDispatcher(const taos::batch_policy& policy) {
-    if (tscDispatcher) {
-        destroyDispatcherHolder(tscDispatcher);
-        tscDispatcher = nullptr;
+    if (tscDispatcherManager) {
+        destroyDispatcherManager(tscDispatcherManager);
+        tscDispatcherManager = nullptr;
     }
     if (policy.enable) {
-        tscDispatcher = createDispatcherHolder(policy.batch_size, policy.timeout, policy.thread_isolate);
+        tscDispatcherManager = createDispatcherManager(policy.batch_size, policy.timeout, policy.thread_isolate);
     }
 }
 
