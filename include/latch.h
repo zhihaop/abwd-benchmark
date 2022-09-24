@@ -1,6 +1,7 @@
 #ifndef ASYNC_BULK_TEST_LATCH_H
 #define ASYNC_BULK_TEST_LATCH_H
 
+#include <jemalloc/jemalloc.h>
 #include <atomic>
 #include <mutex>
 #include <condition_variable>

@@ -1,6 +1,7 @@
 #ifndef ASYNC_BULK_BENCHMARK_STATEMENT_DATA_H
 #define ASYNC_BULK_BENCHMARK_STATEMENT_DATA_H
 
+#include <jemalloc/jemalloc.h>
 #include <vector>
 #include <memory>
 #include <string>

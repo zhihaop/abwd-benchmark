@@ -74,7 +74,8 @@ void execute_benchmark(benchmark_policy b, taos::client_policy c) {
                     }
                     latch.countdown();
                 });
-            }
+            } 
+            latch.await();
         };
         auto future = std::async(std::launch::async, runnable);
         executor.emplace_back(std::move(future));

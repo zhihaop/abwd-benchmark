@@ -1,6 +1,7 @@
 #ifndef ASYNC_BULK_TEST_STATEMENT_H
 #define ASYNC_BULK_TEST_STATEMENT_H
 
+#include <jemalloc/jemalloc.h>
 #include "statement_data.h"
 
 #include <utility>

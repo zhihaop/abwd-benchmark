@@ -1,3 +1,5 @@
+#include <jemalloc/jemalloc.h>
+
 #include "taos.h"
 #include "statement.h"
 #include <string>
