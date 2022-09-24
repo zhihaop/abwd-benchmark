@@ -5,7 +5,7 @@ Asynchronous Bulk Write Dispatcher (ABWD) is a asynchronous scheduler that recei
 ## Dependencies
 
 ```bash
-sudo apt install -y build-essential cmake libspdlog-dev
+sudo apt install -y build-essential cmake libspdlog-dev libjemalloc-dev
 ```
 
 ## How to use
