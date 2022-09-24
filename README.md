@@ -40,6 +40,6 @@ sudo apt install -y build-essential cmake libspdlog-dev libjemalloc-dev
 
 ## Benchmark
 
-Single-table asynchronous insert throughput and speedup (batch_size=128, timeout=50)
+Single-table asynchronous insert throughput and speedup (batch_size=128, timeout=50, max_sessions=256)
 
 ![throughput](image/throughput.png) ![speedup](image/speedup.png)
