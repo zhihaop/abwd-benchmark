@@ -50,7 +50,7 @@ namespace taos {
         bool enable{true};
         bool thread_isolate{false};
         int batch_size{128};
-        int timeout{100};
+        int timeout{10};
     };
 
     struct client_policy {
