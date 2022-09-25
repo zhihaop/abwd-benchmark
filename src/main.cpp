@@ -25,7 +25,6 @@ int main() {
     auto b = read_benchmark_policy(std::cin);
     taos::client_policy c = read_policy(std::cin);
     execute_benchmark(b, c);
-    return 0;
 }
 
 /**

@@ -40,6 +40,10 @@ sudo apt install -y build-essential cmake libspdlog-dev libjemalloc-dev
 
 ## Benchmark
 
-Single-table asynchronous insert throughput and speedup (batch_size=128, timeout=50, max_sessions=256)
+The super table `meter` has two fields `timestamp` and `voltage` (int).
+
+The table `d0001` is created by the super table `meter`. We write one million SQL statements to the table `d0001` asynchronously, one row per statement.
+
+We set the `max_connections=256`, `batch_size=128`, `timeout=20ms`, and get the following result.
 
 ![throughput](image/throughput.png) ![speedup](image/speedup.png)
