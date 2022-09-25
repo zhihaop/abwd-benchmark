@@ -41,13 +41,13 @@ void execute_benchmark(benchmark_policy b, taos::client_policy c) {
     client.connect("127.0.0.1", nullptr, nullptr, nullptr, 6030);
 
     // create database.
-    client.query("create database abwd_test precision 'ns'");
-    client.query("use abwd_test");
+    client.query("create database abwd_benchmark precision 'ns'");
+    client.query("use abwd_benchmark");
 
     // prepare table.
-    std::string table = "bw0001";
-    client.query("create stable bw (ts timestamp, v int) tags(g int)");
-    client.query(fmt::format("create table {} using bw tags({})", table, 0));
+    std::string table = "d0001";
+    client.query("create stable meter (ts timestamp, v int) tags(g int)");
+    client.query(fmt::format("create table {} using meter tags({})", table, 0));
     spdlog::info("create table: {}", table);
 
     // executor will block until finish all the insertion calls. 
@@ -66,10 +66,10 @@ void execute_benchmark(benchmark_policy b, taos::client_policy c) {
         auto runnable = [offset, nxt, ts, table, &client, &latch]() {
             for (auto j = offset; j < nxt; ++j) {
                 auto sql = fmt::format("insert into {} values ({}, {})", table, ts + j, j);
-                client.query(sql, [&latch, sql](taos::result result) {
+                client.query(sql, [&latch](taos::result result) {
                     // no need to free TAOS_RES*, because TAOS_RES* is managed by taos::result class.
                     if (result.error() != "success"s) {
-                        spdlog::error("sql: {}, error: {}", sql, result.error());
+                        spdlog::error("error: {}", result.error());
                     }
                     latch.countdown();
                 });
