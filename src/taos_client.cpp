@@ -22,7 +22,7 @@ void taos::client::connect(const char *ip, const char *user, const char *pass, c
     if (policy.batch.enable) {
         taos_options(TSDB_WRITE_BATCH_SIZE, std::to_string(policy.batch.batch_size).c_str());
         taos_options(TSDB_WRITE_BATCH_TIMEOUT, std::to_string(policy.batch.timeout).c_str());
-        taos_options(TSDB_WRITE_BATCH_THREAD_LOCAL, std::to_string(policy.batch.thread_isolate ? 0 : 1).c_str());
+        taos_options(TSDB_WRITE_BATCH_THREAD_LOCAL, std::to_string(policy.batch.thread_isolate ? 1 : 0).c_str());
     } else {
         taos_options(TSDB_WRITE_BATCH_SIZE, "0");
     }
