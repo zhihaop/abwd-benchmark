@@ -1,6 +1,6 @@
 # abwd-benchmark
 
-Asynchronous Bulk Write Dispatcher (ABWD) is a asynchronous scheduler that receiveing user request, and batching them together asynchronously. The implementation is [here](https://github.com/taosdata/TDengine/pull/16866).
+Asynchronous Batch Write Dispatcher (ABWD) is a asynchronous scheduler that receiveing user request, and batching them together asynchronously. The implementation is [here](https://github.com/taosdata/TDengine/pull/16866).
 
 ## Dependencies
 
